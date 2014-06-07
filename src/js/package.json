@@ -1,7 +1,9 @@
 {
   "volo": {
     "dependencies": {
-      "jquery": "github:jquery/jquery/2.0.3"
+      "jquery": "github:jquery/jquery/2.0.3",
+      "angular": "github:angular/angular.js/v1.1.5",
+      "ws": "github:einaros/ws/v0.4.30"
     }
   }
 }

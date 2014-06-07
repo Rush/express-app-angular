@@ -5,7 +5,6 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
@@ -52,13 +51,42 @@ if (!isProduction) {
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
 
-http.createServer(app).listen(app.get('port'), function(){
+var todoItems = [{
+  id: '1231234',
+  title: 'First todo',
+  completed: false
+},
+{
+  id: '1231235',
+  title: 'Second todo',
+  completed: true
+}
+];
+
+function setupREST(app) {
+  app.get('/todoitems', function(res, res) {
+    res.json(todoItems);
+  });
+
+  app.post('/todoitems', function(req, res) {
+    todoItems = req.body.map(function(id) {
+      return todoItems.filter(function(elem) {
+        return elem.id == id;
+      })[0];
+    });
+    res.send(200);
+  });
+}
+
+setupREST(app);
+
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
 process.addListener("uncaughtException", function(err) {
   console.log("Uncaught exception: " + err);
   console.log(err.stack);
+  // process.exit(1);
 });

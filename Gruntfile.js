@@ -15,10 +15,10 @@ module.exports = function(grunt) {
         options: {
           appDir: './src/js',
           baseUrl: '.',
-// uncomment for AngularJS
-//					onBuildRead: function(moduleName, path, contents) {
-//						return require('ngmin').annotate(contents);
-//					},
+					// prevent angular constructor parameters from getting scrambled
+					onBuildRead: function(moduleName, path, contents) {
+						return require('ngmin').annotate(contents);
+					},
           paths: {
             app: './',
           },
@@ -30,10 +30,11 @@ module.exports = function(grunt) {
               name: 'common',
               include: [
                   'jquery',
+									'angular'
               ],
             }, {
               name: 'main-page',
-              include: ['main-page'],
+              include: ['main'],
               exclude: ['common']
             }
           ]

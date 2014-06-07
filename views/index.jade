@@ -1,8 +1,105 @@
 extends layout
 
 append head
-	script(data-main='/js/main-page', src='/js/require.js')
+  script(data-main='/js/main-page', src='/js/require.js')
+  style(type='text/css').
+    [ng-cloak] {
+      display: none;
+    }
+    .active {
+      color: red;
+    }
 
 block content
-	h1= title
-	p Welcome to #{title}
+  section#todoapp(ng-controller='TodoController')
+    header#header
+        h1 todos
+        form#todo-form(ng-submit='addTodo()')
+          input#new-todo(placeholder='What needs to be done?', ng-model='newTodo', autofocus='autofocus')
+      section#main(ng-show='todos.length', ng-cloak='ng-cloak')
+        input#toggle-all(type='checkbox', ng-model='allChecked', ng-click='markAll(allChecked)')
+        label(for='toggle-all') Mark all as complete
+        ul#todo-list(ui-sortable="sortableOptions",ng-model="todos")
+          li(ng-repeat='todo in todos | filter:statusFilter', ng-class='{completed: todo.completed, editing: todo == editedTodo}',ng-controller='TodoItemController')
+            .view
+              input.toggle(type='checkbox', ng-model='todo.completed')
+              label(ng-dblclick='editTodo(todo)') {{todo.title}}
+              button.destroy(ng-click='removeTodo(todo)')
+            form(ng-submit='doneEditing(todo)')
+              input.edit(ng-model='todo.title', todo-blur='doneEditing(todo)', todo-focus='todo == editedTodo')
+      footer#footer(ng-show='todos.length', ng-cloak='ng-cloak')
+        span#todo-count
+          strong {{remainingCount}}
+          ng-pluralize(count='remainingCount', when='{ one: \'item left\', other: \'items left\' }')
+        ul#filters
+          li
+            a(ng-class='{selected: location.path() == \'/\'} ', href='#/') All
+          li
+            a(ng-class='{selected: location.path() == \'/active\'}', href='#/active') Active
+          li
+            a(ng-class='{selected: location.path() == \'/completed\'}', href='#/completed') Completed
+        button#clear-completed(ng-click='clearDoneTodos()', ng-show='ng-show', remainingcount='remainingCount')
+    footer#info
+      p Double-click to edit a todo
+      p
+        | Credits:
+        a(href='http://twitter.com/cburgdorf') Christoph Burgdorf
+        | ,
+        a(href='http://ericbidelman.com') Eric Bidelman
+        | ,
+        a(href='http://jacobmumm.com') Jacob Mumm
+        | ,
+        a(href='http://igorminar.com') Igor Minar
+        | and
+        a(href='http://twitter.com/passy') Pascal Hartig
+      p
+        | Part of
+        a(href='http://todomvc.com') TodoMVC
+
+  input(type='text',ng-model='title')
+  p Welcome to #{title}
+  //- explicit root scope
+  p Angular title {{$root.title}}
+  //- implicit root scope
+  p Angular title {{title}}
+  //- same using ng-bind, not suffering css issue
+  p
+    | Angular title 
+    span(ng-bind="title")
+
+  div(ng-controller='HelloCntl',ng-cloak)
+    | Your name: 
+    input(type='text',ng-model='name')
+    hr
+    | Hello {{name || "World"}}
+  div(ng-controller='HelloCntl',ng-cloak)
+    | Your name: 
+    input(type='text',ng-model='name')
+    hr
+    | Hello {{name || "World"}}
+  table
+    tr
+      th row number
+    tr(ng-repeat='i in [0, 1, 2, 3, 4, 5, 6, 7]')
+      td {{i}}
+  div
+    my-toggle(ng-model="foo",name='foo')
+    my-toggle(ng-model="bar")
+  div
+    | Foo
+    input(type='checkbox',ng-model="foo",name="foo")
+    br
+    | Bar
+    input(type='checkbox',ng-model="bar")
+  div
+    my-select(ng-model='sex',style='min-width: 160px; display: block')
+      option(data-icon='fa fa-male',value="Male +") Male
+      option(data-icon='fa fa-female',value="Female +") Female
+    div {{sex}}
+  div(ng-controller='LiveDate as date')
+    | {{text}}
+    | {{date.text}}
+  div(ng-controller='LiveDate as datee')
+    | {{text}}
+  div
+    | dd {{date.text}}

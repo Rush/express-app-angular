@@ -1,0 +1,5 @@
+if name
+	input(type='hidden',name="{{name}}",value="{{ngModel || false}}")
+.btn-group
+	a.btn.btn-default(ng-class="{active: ngModel}",ng-click="ngModel=true") On
+	a.btn.btn-default(ng-class="{active: !ngModel}",ng-click="ngModel=false") Off

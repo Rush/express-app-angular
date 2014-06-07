@@ -1,0 +1,11 @@
+.dropdown
+	a.btn.btn-default.dropdown-toggle
+		span(style='min-width: 160px; padding-left: 10px; margin-right: -20px;display: inline-block; text-align: left;')
+			| {{currentOption.text}} 
+		span.caret
+
+	ul.dropdown-menu
+		li(ng-repeat="option in selectableOptions")
+			a(ng-click='onClick(option)')
+				| {{option.text}}
+select(ng-model="ngModel",ng-transclude,style="display: none")

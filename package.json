@@ -8,10 +8,14 @@
   "dependencies": {
     "express": "3.4.3",
     "jade": "*",
-    "less-middleware": "~0.1.12"
+    "less-middleware": "~0.1.12",
+    "ws": "~0.4.31",
+    "methods": "~0.1.0",
+    "es6-shim": "~0.9.1"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt": "^0.4.5",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "ngmin": "~0.4.0"
   }
 }
